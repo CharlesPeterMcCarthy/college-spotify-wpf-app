@@ -6,8 +6,85 @@
         xmlns:local="clr-namespace:SpotifyApp"
         xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}" Loaded="Window_Loaded">
+
+    <Grid Style="{StaticResource MainBackground}">
+        <materialDesign:DrawerHost>
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <StackPanel Margin="16">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Margin="0 0 0 10"
+                        FontWeight="bold"
+                        Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                        Style="{StaticResource MaterialDesignTitleTextBlock}"
+                        IsEnabled="False"
+                        >Navigation</TextBlock>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <Button
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Click="SearchSpotify"
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource MaterialDesignFlatButton}">Search Spotify</Button>
+                    <Button
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Click="MyArtists"
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource MaterialDesignFlatButton}">My Artists</Button>
+                    <Button
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Click="MyAlbums"
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource MaterialDesignFlatButton}">My Albums</Button>
+                </StackPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="90*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:ColorZone
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    Grid.Column="0" Grid.Row="0"
+                    Mode="PrimaryMid"
+                    Padding="16">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                            Height="30"
+                            Padding="10, -5, 10, 0"
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}">
+                            <materialDesign:PackIcon Kind="HamburgerMenu" Width="40" Height="40" />
+                        </Button>
+                        <TextBlock Name="tblkHeading" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16 0 0 0" />
+                    </StackPanel>
+                </materialDesign:ColorZone>
+
+                <ScrollViewer Grid.Column="1" Grid.Row="1">
+                    <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Padding="10" />
+                </ScrollViewer>
+            </Grid>
+        </materialDesign:DrawerHost>
+        
         <notifications:NotificationArea x:Name="ToastrArea" Position="BottomRight" />
     </Grid>
 </Window>

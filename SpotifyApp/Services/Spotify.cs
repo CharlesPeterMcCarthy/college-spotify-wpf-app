@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SpotifyApp.Interfaces;
 using SpotifyApp.Models;
 using System;
 using System.Collections.Generic;
@@ -43,14 +44,14 @@ namespace SpotifyApp.Services {
             }
         }
 
-        public static async Task<List<Album>> SearchAlbums(string searchString) {
-            List<Album> albums = new List<Album>();
+        public static async Task<List<ISpotifyEntity>> SearchAlbums(string searchString) {
+            List<ISpotifyEntity> albums = new List<ISpotifyEntity>();
             string response = await SearchSpotify("album", searchString);
             var json = JsonConvert.DeserializeObject<dynamic>(response);
             
             foreach (var a in json.albums.items) {
                 albums.Add(new Album() {
-                    AlbumID = a.id,
+                    ID = a.id,
                     Name = a.name,
                     ReleaseDate = a.release_date,
                     Image = a.images[0].url,
@@ -62,8 +63,8 @@ namespace SpotifyApp.Services {
             return albums;
         }
 
-        public static async Task<List<Artist>> SearchArtists(string searchString) {
-            List<Artist> artists = new List<Artist>();
+        public static async Task<List<ISpotifyEntity>> SearchArtists(string searchString) {
+            List<ISpotifyEntity> artists = new List<ISpotifyEntity>();
             string response = await SearchSpotify("artist", searchString);
             var json = JsonConvert.DeserializeObject<dynamic>(response);
 
@@ -71,7 +72,7 @@ namespace SpotifyApp.Services {
                 var image = a.images.Count > 0 ? a.images[0].url : null;
 
                 artists.Add(new Artist() {
-                    ArtistID = a.id,
+                    ID = a.id,
                     Name = a.name,
                     Image = image,
                     Genres = a.genres.ToObject<string[]>(),

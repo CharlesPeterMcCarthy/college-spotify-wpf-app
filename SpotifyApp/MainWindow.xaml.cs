@@ -1,4 +1,6 @@
-﻿using SpotifyApp.Services;
+﻿using SpotifyApp.Models;
+using SpotifyApp.Pages;
+using SpotifyApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +25,38 @@ namespace SpotifyApp {
 
         public MainWindow() {
             InitializeComponent();
-
-            Toastr.TurnOnNotifications();
-            Spotify.RequestToken();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            Setup();
+            NavigateToSearchSpotify();
+        }
+
+        public async void Setup() {
+            Toastr.TurnOnNotifications();
+        }
+
+        private void SearchSpotify(object sender, RoutedEventArgs e) => NavigateToSearchSpotify();
+
+        private void MyArtists(object sender, RoutedEventArgs e) => NavigateToMyArtists();
+
+        private void MyAlbums(object sender, RoutedEventArgs e) => NavigateToMyAlbums();
+
+        private void SetheadingText(string heading) => tblkHeading.Text = heading;
+
+        private void NavigateToSearchSpotify() {
+            SearchSpotify ss = new SearchSpotify();
+
+            SetheadingText("Search Spotify");
+            mainFrame.NavigationService.Navigate(ss);
+        }
+
+        private void NavigateToMyArtists() {
+
+        }
+
+        private void NavigateToMyAlbums() {
+
+        }
     }
 }
