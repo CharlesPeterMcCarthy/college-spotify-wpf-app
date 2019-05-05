@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotifyApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,15 @@ namespace SpotifyApp {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window {
+
         public MainWindow() {
             InitializeComponent();
+
+            Toastr.TurnOnNotifications();
+            Spotify.RequestToken();
         }
+
     }
 }
