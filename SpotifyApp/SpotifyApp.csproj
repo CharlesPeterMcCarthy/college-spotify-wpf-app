@@ -64,6 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Album.cs" />
+    <Compile Include="Models\Artist.cs" />
     <Compile Include="Services\Spotify.cs" />
     <Compile Include="Services\Toastr.cs" />
     <Page Include="MainWindow.xaml">

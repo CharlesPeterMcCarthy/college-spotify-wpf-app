@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SpotifyApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -42,14 +43,48 @@ namespace SpotifyApp.Services {
             }
         }
 
-        public static async Task<string> SearchAlbums(string searchString) => await SearchSpotify("track", searchString);
+        public static async Task<List<Album>> SearchAlbums(string searchString) {
+            List<Album> albums = new List<Album>();
+            string response = await SearchSpotify("album", searchString);
+            var json = JsonConvert.DeserializeObject<dynamic>(response);
+            
+            foreach (var a in json.albums.items) {
+                albums.Add(new Album() {
+                    AlbumID = a.id,
+                    Name = a.name,
+                    ReleaseDate = a.release_date,
+                    Image = a.images[0].url,
+                    ArtistID = a.artists[0].id,
+                    ArtistName = a.artists[0].name
+                });
+            }
 
-        public static async Task<string> SearchArtists(string searchString) => await SearchSpotify("artist", searchString);
+            return albums;
+        }
+
+        public static async Task<List<Artist>> SearchArtists(string searchString) {
+            List<Artist> artists = new List<Artist>();
+            string response = await SearchSpotify("artist", searchString);
+            var json = JsonConvert.DeserializeObject<dynamic>(response);
+
+            foreach (var a in json.artists.items) {
+                var image = a.images.Count > 0 ? a.images[0].url : null;
+
+                artists.Add(new Artist() {
+                    ArtistID = a.id,
+                    Name = a.name,
+                    Image = image,
+                    Genres = a.genres.ToObject<string[]>(),
+                    Followers = a.followers.total
+                });
+            }
+
+            return artists;
+        }
 
         public static async Task<string> SearchSpotify(string type, string searchString) {
-            Console.WriteLine($"https://api.spotify.com/v1/search?q={searchString}&type={type}&limit=10");
             HttpResponseMessage response = await client.GetAsync(
-                $"https://api.spotify.com/v1/search?q={searchString}&type=artist&limit=10"
+                $"https://api.spotify.com/v1/search?q={searchString}&type={type}&limit=10"
             );
 
             response.EnsureSuccessStatusCode();
