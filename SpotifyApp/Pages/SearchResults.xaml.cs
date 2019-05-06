@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static SpotifyApp.Services.Spotify;
 
 namespace SpotifyApp.Pages {
     /// <summary>
@@ -20,14 +21,15 @@ namespace SpotifyApp.Pages {
     /// </summary>
     public partial class SearchResults : Page {
 
+        public List<ISpotifyEntity> Results { get; set; }
+
         public SearchResults() {
             InitializeComponent();
         }
 
-        public SearchResults(List<ISpotifyEntity> results) : this() {
-            Console.WriteLine(results[0].Name);
-
-            lbxResults.ItemsSource = results;
+        public SearchResults(List<ISpotifyEntity> results, SpotifyEntity entityType) : this() {
+            if (entityType == SpotifyEntity.Artist) lbxArtists.ItemsSource = results;
+            if (entityType == SpotifyEntity.Album) lbxAlbums.ItemsSource = results;
         }
 
     }

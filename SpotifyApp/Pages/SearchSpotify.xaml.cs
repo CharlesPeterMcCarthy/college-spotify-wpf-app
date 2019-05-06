@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static SpotifyApp.Services.Spotify;
 
 namespace SpotifyApp.Pages {
     /// <summary>
@@ -39,22 +40,23 @@ namespace SpotifyApp.Pages {
 
             string searchString = tbxSearchString.Text;
             string type = cbxType.SelectedItem.ToString();
+            SpotifyEntity entityType = type == "Artist" ? SpotifyEntity.Artist : SpotifyEntity.Album;
 
             if (searchString.Length < 1) {
                 Toastr.Warning("Too Short", "Please enter a longer search query");
                 return;
             }
 
-            List<ISpotifyEntity> results = await GetSearchResults(searchString, type);
+            List<ISpotifyEntity> results = await GetSearchResults(searchString, entityType);
 
-            if (results.Count > 0) NavigationService.Navigate(new SearchResults(results));
+            if (results.Count > 0) NavigationService.Navigate(new SearchResults(results, entityType));
             else Toastr.Info("No Results", "There are no " + type + "s matching: '" + searchString + "'");
         }
 
-        private async Task<List<ISpotifyEntity>> GetSearchResults(string searchString, string type) {
+        private async Task<List<ISpotifyEntity>> GetSearchResults(string searchString, SpotifyEntity type) {
             await Spotify.RequestToken();
-            if (type.Equals("Artist")) return await Spotify.SearchArtists(searchString);
-            else if (type.Equals("Album")) return await Spotify.SearchAlbums(searchString);
+            if (type == SpotifyEntity.Artist) return await Spotify.SearchArtists(searchString);
+            else if (type == SpotifyEntity.Album) return await Spotify.SearchAlbums(searchString);
             else {
                 Toastr.Error("Error", "Invalid Search Type");
                 return null;

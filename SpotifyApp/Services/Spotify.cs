@@ -19,6 +19,10 @@ namespace SpotifyApp.Services {
             }
         }
 
+        public enum SpotifyEntity {
+            Artist, Album
+        }
+
         public static async Task RequestToken() {
             HttpResponseMessage response = await client.PostAsync(
                 "https://indigoassignment.appspot.com/get-token",
@@ -48,7 +52,7 @@ namespace SpotifyApp.Services {
             List<ISpotifyEntity> albums = new List<ISpotifyEntity>();
             string response = await SearchSpotify("album", searchString);
             var json = JsonConvert.DeserializeObject<dynamic>(response);
-            
+
             foreach (var a in json.albums.items) {
                 albums.Add(new Album() {
                     ID = a.id,
@@ -56,7 +60,8 @@ namespace SpotifyApp.Services {
                     ReleaseDate = a.release_date,
                     Image = a.images[0].url,
                     ArtistID = a.artists[0].id,
-                    ArtistName = a.artists[0].name
+                    ArtistName = a.artists[0].name,
+                    Tracks = a.total_tracks
                 });
             }
 
@@ -67,10 +72,9 @@ namespace SpotifyApp.Services {
             List<ISpotifyEntity> artists = new List<ISpotifyEntity>();
             string response = await SearchSpotify("artist", searchString);
             var json = JsonConvert.DeserializeObject<dynamic>(response);
-
+          
             foreach (var a in json.artists.items) {
                 var image = a.images.Count > 0 ? a.images[0].url : null;
-
 
                 artists.Add(new Artist() {
                     ID = a.id,

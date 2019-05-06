@@ -13,6 +13,7 @@ namespace SpotifyApp.Models {
         public string ArtistID { get; set; }
         public string ArtistName { get; set; }
         public string Image { get; set; }
+        public int Tracks { get; set; }
         public DateTime ReleaseDate { get; set; }
 
     }

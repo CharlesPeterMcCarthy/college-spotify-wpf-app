@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SpotifyApp.Pages"
+      xmlns:models="clr-namespace:SpotifyApp.Models"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SearchResults"
@@ -31,8 +32,7 @@
         <DataTemplate x:Key="ArtistTemplate" x:Name="ArtistTemplate" DataType="{x:Type ListBoxItem}">
             <materialDesign:Card
                 Padding="10"
-                UniformCornerRadius="4"
-                Name="mainPanel">
+                UniformCornerRadius="4">
                 <StackPanel>
                     <TextBlock
                         Text="{Binding Path=Name, Mode=OneWay}"
@@ -113,6 +113,91 @@
                 </StackPanel>
             </materialDesign:Card>
         </DataTemplate>
+
+        <DataTemplate x:Key="AlbumTemplate" x:Name="AlbumTemplate" DataType="{x:Type ListBoxItem}">
+            <materialDesign:Card
+                Padding="10"
+                UniformCornerRadius="4">
+                <StackPanel>
+                    <TextBlock
+                        Text="{Binding Path=Name, Mode=OneWay}"
+                        Style="{StaticResource MaterialDesignTitleTextBlock}" 
+                        FontWeight="Bold" 
+                        HorizontalAlignment="Center" />
+
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                    <Button
+                        Grid.Row="0"
+                        Foreground="black"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        Background="{StaticResource SecondaryAccentBrush}"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="1 -30 0 0"
+                        Name="SaveButton">
+                        <materialDesign:PackIcon Kind="BookmarkPlus" />
+                    </Button>
+
+                    <Grid Name="mainGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70*"/>
+                            <ColumnDefinition Width="30*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0" 
+                                Text="Release Date"
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock 
+                                Grid.Row="1" 
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=ReleaseDate, Mode=OneWay}" />
+
+                            <TextBlock
+                                Grid.Row="2" 
+                                Text="Artist" 
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock
+                                Grid.Row="3"
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=ArtistName, Mode=OneWay}" />
+
+                            <TextBlock
+                                Grid.Row="4" 
+                                Text="Track Count" 
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock
+                                Grid.Row="5"
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=Tracks, Mode=OneWay}" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Column="1"
+                            Margin="20, 0, 0, 0" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right">
+                            <Image Source="{Binding Path=Image, Mode=OneWay}" MaxHeight="200" />
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </materialDesign:Card>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Style="{StaticResource MainBackground}">
@@ -133,6 +218,13 @@
             Grid.Column="1"
             ItemTemplate="{StaticResource ArtistTemplate}" 
             HorizontalContentAlignment="Stretch"
-            Name="lbxResults" />
+            Name="lbxArtists" />
+
+        <ListBox 
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemTemplate="{StaticResource AlbumTemplate}" 
+            HorizontalContentAlignment="Stretch"
+            Name="lbxAlbums" />
     </Grid>
 </Page>
