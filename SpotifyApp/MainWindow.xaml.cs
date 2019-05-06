@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static SpotifyApp.Services.Spotify;
 
 namespace SpotifyApp {
     /// <summary>
@@ -32,8 +33,9 @@ namespace SpotifyApp {
             NavigateToSearchSpotify();
         }
 
-        public async void Setup() {
+        public void Setup() {
             Toastr.TurnOnNotifications();
+            Database.Setup();
         }
 
         private void SearchSpotify(object sender, RoutedEventArgs e) => NavigateToSearchSpotify();
@@ -52,11 +54,17 @@ namespace SpotifyApp {
         }
 
         private void NavigateToMyArtists() {
+            MySaved ms = new MySaved(SpotifyEntity.Artist);
 
+            SetheadingText("My Artists");
+            mainFrame.NavigationService.Navigate(ms);
         }
 
         private void NavigateToMyAlbums() {
+            MySaved ms = new MySaved(SpotifyEntity.Album);
 
+            SetheadingText("My Artists");
+            mainFrame.NavigationService.Navigate(ms);
         }
     }
 }

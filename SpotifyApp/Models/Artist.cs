@@ -14,7 +14,14 @@ namespace SpotifyApp.Models {
         public string[] Genres { get; set; }
         public int Followers { get; set; }
         public int Popularity { get; set; }
-        public string GenresReadable { get { return Genres.Length > 0 ? string.Join(", ", Genres) : "N/A"; } }
+        public string GenresReadable {
+            get {
+                return Genres.Length > 0 ? string.Join(", ", Genres) : "N/A";
+            }
+            set {
+                this.Genres = value.Split(',').Select(g => g.Trim()).ToArray();
+            }
+        }
 
         public string GetInsertStatement() => $"'{ID}', '{Name}', '{Image}', '{GenresReadable}', '{Followers}', '{Popularity}'";
 
