@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using SpotifyApp.Models;
 using System.IO;
+using System.Collections.ObjectModel;
+using SpotifyApp.Interfaces;
 
 namespace SpotifyApp.Services {
     public static class Database {
@@ -20,7 +22,7 @@ namespace SpotifyApp.Services {
                 // Create DB if it doesn't exists - This will only run once
             if (!File.Exists("SpotifyDB.sqlite")) SQLiteConnection.CreateFile("SpotifyDB.sqlite");
 
-            dbConn = new SQLiteConnection("Data Source=SpotifyDB.sqlite;Version=3;");
+            dbConn = new SQLiteConnection("Data Source=SpotifyDB.sqlite;Version=3;datetimeformat=CurrentCulture");
             OpenDB();
 
             string sql = "CREATE TABLE IF NOT EXISTS artists (" +
@@ -78,6 +80,57 @@ namespace SpotifyApp.Services {
             Toastr.Success("Album Saved", $"The album '{album.Name}' has been saved.");
 
             CloseDB();
+        }
+
+        public static ObservableCollection<ISpotifyEntity> RetrieveArtists() {
+            OpenDB();
+
+            ObservableCollection<ISpotifyEntity> artists = new ObservableCollection<ISpotifyEntity>();
+
+            string sql = "SELECT * FROM artists";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConn);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            while (reader.Read()) {
+                artists.Add(new Artist() {
+                    ID = (string)reader["ID"],
+                    Name = (string)reader["Name"],
+                    Image = (string)reader["Image"],
+                    GenresReadable = (string)reader["GenresReadable"],
+                    Followers = (int)reader["Followers"],
+                    Popularity = (int)reader["Popularity"]
+                });
+            }
+
+            CloseDB();
+
+            return artists;
+        }
+
+        public static ObservableCollection<ISpotifyEntity> RetrieveAlbums() {
+            OpenDB();
+
+            ObservableCollection<ISpotifyEntity> albums = new ObservableCollection<ISpotifyEntity>();
+
+            string sql = "SELECT * FROM albums";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConn);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            while (reader.Read()) {
+                albums.Add(new Album() {
+                    ID = (string)reader["ID"],
+                    Name = (string)reader["Name"],
+                    ArtistID = (string)reader["ArtistID"],
+                    ArtistName = (string)reader["ArtistName"],
+                    Image = (string)reader["Image"],
+                    Tracks = (int)reader["Tracks"],
+                    ReleaseDate = (DateTime)reader["ReleaseDate"]
+                });
+            }
+
+            CloseDB();
+
+            return albums;
         }
 
     }
