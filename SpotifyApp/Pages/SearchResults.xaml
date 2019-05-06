@@ -76,10 +76,13 @@
                                 Text="Followers"
                                 Style="{StaticResource LabelText}" />
                             <TextBlock 
-                                Grid.Row="1" 
+                                Grid.Row="1"
                                 TextAlignment="Left" 
-                                Style="{StaticResource ValueText}"
-                                Text="{Binding Path=Followers, Mode=OneWay}" />
+                                Style="{StaticResource ValueText}">
+                                <TextBlock 
+                                    Text="{Binding Path=Followers, Mode=OneWay}" />
+                                followers
+                            </TextBlock>
 
                             <TextBlock
                                 Grid.Row="2" 
@@ -98,8 +101,11 @@
                             <TextBlock
                                 Grid.Row="5"
                                 TextAlignment="Left" 
-                                Style="{StaticResource ValueText}"
-                                Text="{Binding Path=Popularity, Mode=OneWay}" />
+                                Style="{StaticResource ValueText}">
+                                <TextBlock
+                                    Text="{Binding Path=Popularity, Mode=OneWay}" />
+                                / 100
+                            </TextBlock>
                         </Grid>
 
                         <Grid
@@ -164,7 +170,7 @@
                                 Grid.Row="1" 
                                 TextAlignment="Left" 
                                 Style="{StaticResource ValueText}"
-                                Text="{Binding Path=ReleaseDate, Mode=OneWay}" />
+                                Text="{Binding Path=ReleaseDateReadable, Mode=OneWay}" />
 
                             <TextBlock
                                 Grid.Row="2" 
@@ -183,8 +189,11 @@
                             <TextBlock
                                 Grid.Row="5"
                                 TextAlignment="Left" 
-                                Style="{StaticResource ValueText}"
-                                Text="{Binding Path=Tracks, Mode=OneWay}" />
+                                Style="{StaticResource ValueText}">
+                                <TextBlock
+                                    Text="{Binding Path=Tracks, Mode=OneWay}" />
+                                tracks
+                            </TextBlock>
                         </Grid>
 
                         <Grid

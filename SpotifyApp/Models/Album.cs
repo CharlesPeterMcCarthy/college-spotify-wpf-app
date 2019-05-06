@@ -15,6 +15,11 @@ namespace SpotifyApp.Models {
         public string Image { get; set; }
         public int Tracks { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public string ReleaseDateReadable {
+            get {
+                return ReleaseDate.ToString("dddd, dd MMMM yyyy");
+            }
+        }
 
     }
 }
