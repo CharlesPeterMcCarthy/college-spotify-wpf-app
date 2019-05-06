@@ -29,9 +29,18 @@
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
 
+        <TextBlock 
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="0, 40, 0, 40"
+            HorizontalAlignment="Center"
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+            Text="Search for your favourite artists and albums on Spotify." />
+
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
+            Margin="0, 0, 0, 20"
             materialDesign:HintAssist.Hint="Search"
             materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
             materialDesign:HintAssist.FloatingScale="0.50"
@@ -41,6 +50,7 @@
         <ComboBox
             Grid.Row="2"
             Grid.Column="1"
+            Margin="0, 0, 0, 40"
             IsEditable="True"
             IsReadOnly="True"
             Style="{StaticResource EditComboBox}"
@@ -54,7 +64,6 @@
             HorizontalAlignment="Right"
             Style="{StaticResource MaterialDesignRaisedAccentButton}"
             Content="Search Spotify"
-            ToolTip="Resource name: MaterialDesignRaisedAccentButton"
             Name="btnSearch" Click="BtnSearch_Click" />
     </Grid>
 </Page>

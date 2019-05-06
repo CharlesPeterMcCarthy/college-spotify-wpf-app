@@ -25,7 +25,9 @@ namespace SpotifyApp.Pages {
         }
 
         public SearchResults(List<ISpotifyEntity> results) : this() {
-            Console.WriteLine(results.Count + " results");
+            Console.WriteLine(results[0].Name);
+
+            lbxResults.ItemsSource = results;
         }
 
     }

@@ -71,12 +71,14 @@ namespace SpotifyApp.Services {
             foreach (var a in json.artists.items) {
                 var image = a.images.Count > 0 ? a.images[0].url : null;
 
+
                 artists.Add(new Artist() {
                     ID = a.id,
                     Name = a.name,
                     Image = image,
                     Genres = a.genres.ToObject<string[]>(),
-                    Followers = a.followers.total
+                    Followers = a.followers.total,
+                    Popularity = a.popularity
                 });
             }
 

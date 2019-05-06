@@ -13,6 +13,8 @@ namespace SpotifyApp.Models {
         public string Image { get; set; }
         public string[] Genres { get; set; }
         public int Followers { get; set; }
+        public int Popularity { get; set; }
+        public string GenresReadable { get { return Genres.Length > 0 ? string.Join(", ", Genres) : "N/A"; } }
 
     }
 }

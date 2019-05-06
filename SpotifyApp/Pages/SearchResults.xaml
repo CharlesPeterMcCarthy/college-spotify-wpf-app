@@ -6,9 +6,133 @@
       xmlns:local="clr-namespace:SpotifyApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="SearchResults">
+      Title="SearchResults"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
 
-    <Grid>
+    <Page.Resources>
+        <Style x:Key="LabelText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="0, 20, 0, 5" />
+        </Style>
         
+        <Style x:Key="ValueText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignSubheadingTextBlock}">
+            <Setter Property="Margin" Value="20, 0, 0, 0"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="MaxHeight" Value="500"></Setter>
+        </Style>
+        
+        <DataTemplate x:Key="ArtistTemplate" x:Name="ArtistTemplate" DataType="{x:Type ListBoxItem}">
+            <materialDesign:Card
+                Padding="10"
+                UniformCornerRadius="4"
+                Name="mainPanel">
+                <StackPanel>
+                    <TextBlock
+                        Text="{Binding Path=Name, Mode=OneWay}"
+                        Style="{StaticResource MaterialDesignTitleTextBlock}" 
+                        FontWeight="Bold" 
+                        HorizontalAlignment="Center" />
+
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                    <Button
+                        Grid.Row="0"
+                        Foreground="black"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        Background="{StaticResource SecondaryAccentBrush}"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="1 -30 0 0"
+                        Name="SaveButton">
+                        <materialDesign:PackIcon Kind="BookmarkPlus" />
+                    </Button>
+
+                    <Grid Name="mainGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70*"/>
+                            <ColumnDefinition Width="30*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0" 
+                                Text="Followers"
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock 
+                                Grid.Row="1" 
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=Followers, Mode=OneWay}" />
+
+                            <TextBlock
+                                Grid.Row="2" 
+                                Text="Genres" 
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock
+                                Grid.Row="3"
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=GenresReadable, Mode=OneWay}" />
+
+                            <TextBlock
+                                Grid.Row="4" 
+                                Text="Popularity" 
+                                Style="{StaticResource LabelText}" />
+                            <TextBlock
+                                Grid.Row="5"
+                                TextAlignment="Left" 
+                                Style="{StaticResource ValueText}"
+                                Text="{Binding Path=Popularity, Mode=OneWay}" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Column="1"
+                            Margin="20, 0, 0, 0" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right">
+                            <Image Source="{Binding Path=Image, Mode=OneWay}" MaxHeight="200" />
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </materialDesign:Card>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Style="{StaticResource MainBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox 
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemTemplate="{StaticResource ArtistTemplate}" 
+            HorizontalContentAlignment="Stretch"
+            Name="lbxResults" />
     </Grid>
 </Page>

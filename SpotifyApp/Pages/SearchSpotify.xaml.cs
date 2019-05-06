@@ -26,32 +26,39 @@ namespace SpotifyApp.Pages {
             InitializeComponent();
 
             cbxType.ItemsSource = new string[] { "Artist", "Album" };
+            cbxType.SelectedValue = "Artist";
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e) => SearchSpotifyAsync();
 
         private async void SearchSpotifyAsync() {
+            if (cbxType.SelectedIndex < 0) {
+                Toastr.Warning("No Type", "Please choose a type from the drop down");
+                return;
+            }
+
             string searchString = tbxSearchString.Text;
-            string type = (string) cbxType.SelectedItem.ToString();
+            string type = cbxType.SelectedItem.ToString();
 
             if (searchString.Length < 1) {
                 Toastr.Warning("Too Short", "Please enter a longer search query");
                 return;
             }
 
+            List<ISpotifyEntity> results = await GetSearchResults(searchString, type);
+
+            if (results.Count > 0) NavigationService.Navigate(new SearchResults(results));
+            else Toastr.Info("No Results", "There are no " + type + "s matching: '" + searchString + "'");
+        }
+
+        private async Task<List<ISpotifyEntity>> GetSearchResults(string searchString, string type) {
             await Spotify.RequestToken();
-            List<ISpotifyEntity> results;
-
-            Console.WriteLine(type);
-
-            if (type.Equals("Artist")) results = await Spotify.SearchArtists(searchString);
-            else if (type.Equals("Album")) results = await Spotify.SearchAlbums(searchString);
+            if (type.Equals("Artist")) return await Spotify.SearchArtists(searchString);
+            else if (type.Equals("Album")) return await Spotify.SearchAlbums(searchString);
             else {
                 Toastr.Error("Error", "Invalid Search Type");
-                return;
+                return null;
             }
-
-            NavigationService.Navigate(new SearchResults(results));
         }
 
     }
