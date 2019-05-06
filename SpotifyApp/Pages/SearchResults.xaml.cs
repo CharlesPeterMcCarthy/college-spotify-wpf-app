@@ -117,5 +117,17 @@ namespace SpotifyApp.Pages {
             if (Type == SpotifyEntity.Album) lbxAlbums.ItemsSource = Results;
         }
 
+        private void SaveEntity(object sender, RoutedEventArgs e) {
+            if (Type == SpotifyEntity.Artist) {
+                Artist selected = ((ListBoxItem)lbxArtists.ContainerFromElement((Button)sender)).Content as Artist;
+                Database.SaveArtist(selected);
+            }
+            if (Type == SpotifyEntity.Album) {
+                Console.WriteLine("save");
+                Album selected = ((ListBoxItem)lbxAlbums.ContainerFromElement((Button)sender)).Content as Album;
+                Database.SaveAlbum(selected);
+            }
+        }
+
     }
 }

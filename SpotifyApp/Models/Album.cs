@@ -21,5 +21,7 @@ namespace SpotifyApp.Models {
             }
         }
 
+        public string GetInsertStatement() => $"'{ID}', '{Name}', '{ArtistID}', '{ArtistName}', '{Image}', '{Tracks}', '{ReleaseDate}'";
+
     }
 }

@@ -10,5 +10,7 @@ namespace SpotifyApp.Interfaces {
         string ID { get; set; }
         string Name { get; set; }
 
+        string GetInsertStatement();
+
     }
 }

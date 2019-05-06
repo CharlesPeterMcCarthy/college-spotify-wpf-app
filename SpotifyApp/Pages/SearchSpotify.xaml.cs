@@ -28,6 +28,9 @@ namespace SpotifyApp.Pages {
 
             cbxType.ItemsSource = new string[] { "Artist", "Album" };
             cbxType.SelectedValue = "Artist";
+
+            Database.Setup();
+            Database.Query();
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e) => PerformSearch();
