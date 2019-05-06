@@ -45,6 +45,7 @@
             materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
             materialDesign:HintAssist.FloatingScale="0.50"
             Style="{StaticResource EditValue}"
+            KeyDown="KeyPressed"
             Name="tbxSearchString" />
 
         <ComboBox
@@ -55,6 +56,7 @@
             IsReadOnly="True"
             Style="{StaticResource EditComboBox}"
             materialDesign:HintAssist.Hint="Type" 
+            KeyDown="KeyPressed"
             Name="cbxType">
         </ComboBox>
 

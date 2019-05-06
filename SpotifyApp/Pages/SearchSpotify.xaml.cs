@@ -30,9 +30,10 @@ namespace SpotifyApp.Pages {
             cbxType.SelectedValue = "Artist";
         }
 
-        private void BtnSearch_Click(object sender, RoutedEventArgs e) => SearchSpotifyAsync();
-
-        private async void SearchSpotifyAsync() {
+        private void BtnSearch_Click(object sender, RoutedEventArgs e) => PerformSearch();
+        private void KeyPressed(object sender, KeyEventArgs e) { if (e.Key == Key.Return) PerformSearch(); }
+        
+        private async void PerformSearch() {
             if (cbxType.SelectedIndex < 0) {
                 Toastr.Warning("No Type", "Please choose a type from the drop down");
                 return;
