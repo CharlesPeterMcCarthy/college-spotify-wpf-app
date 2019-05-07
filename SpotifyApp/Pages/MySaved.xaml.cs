@@ -25,6 +25,7 @@ namespace SpotifyApp.Pages {
     public partial class MySaved : Page {
 
         public ObservableCollection<ISpotifyEntity> Results { get; set; }
+        public ObservableCollection<ISpotifyEntity> FilteredResults { get; set; }
         public SpotifyEntity Type { get; set; }
 
         public MySaved() {
@@ -42,20 +43,22 @@ namespace SpotifyApp.Pages {
 
         private void GetSavedArtists() {
             Results = Database.RetrieveArtists();
-            lbxArtists.ItemsSource = Results;
+            FilteredResults = Results;
+            lbxArtists.ItemsSource = FilteredResults;
         }
 
         private void GetSavedAlbums() {
             Results = Database.RetrieveAlbums();
-            lbxAlbums.ItemsSource = Results;
+            FilteredResults = Results;
+            lbxAlbums.ItemsSource = FilteredResults;
         }
 
         private void UpdateResultsCount() {
             string typeString = Type == SpotifyEntity.Artist ? "artist" : "album";
             typeString += Results.Count != 1 ? "s" : "";
+            string searchQuery = tbxSearchQuery.Text;
 
-            tbxSavedCount.Text = $"{Results.Count} saved {typeString}";
-
+            tbxSavedCount.Text = searchQuery.Length > 0 ? $"{FilteredResults.Count} matching {typeString}" : $"You have {Results.Count} saved {typeString}";
         }
 
         private void DeleteEntity(object sender, RoutedEventArgs e) {
@@ -71,12 +74,24 @@ namespace SpotifyApp.Pages {
             UpdateResultsCount();
         }
 
-        private void CbxSearchField_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void TbxSearchQuery_TextChanged(object sender, TextChangedEventArgs e) {
+            string searchQuery = ((TextBox)sender).Text;
 
+            if (Type == SpotifyEntity.Artist) FilterArtists(searchQuery);
+            if (Type == SpotifyEntity.Album) FilterAlbums(searchQuery);
         }
 
-        private void ChbxSearchQuery_TextChanged(object sender, TextChangedEventArgs e) {
+        private void FilterArtists(string searchQuery) => DisplayFilteredList(Results.Where(r => ((Artist)r).Name.ToLower().Contains(searchQuery.ToLower())));
 
+        private void FilterAlbums(string searchQuery) => DisplayFilteredList(Results.Where(r => ((Album)r).Name.ToLower().Contains(searchQuery.ToLower())));
+
+        private void DisplayFilteredList(IEnumerable<ISpotifyEntity> filtered) {
+            FilteredResults = new ObservableCollection<ISpotifyEntity>(filtered);
+
+            if (Type == SpotifyEntity.Artist) lbxArtists.ItemsSource = FilteredResults;
+            if (Type == SpotifyEntity.Album) lbxAlbums.ItemsSource = FilteredResults;
+
+            UpdateResultsCount();
         }
     }
 }
