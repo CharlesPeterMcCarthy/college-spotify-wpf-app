@@ -33,8 +33,11 @@ namespace SpotifyApp.Pages {
 
         public MySaved(SpotifyEntity type) : this() {
             Type = type;
+
             if (Type == SpotifyEntity.Artist) GetSavedArtists();
             if (Type == SpotifyEntity.Album) GetSavedAlbums();
+
+            UpdateResultsCount();
         }
 
         private void GetSavedArtists() {
@@ -47,5 +50,33 @@ namespace SpotifyApp.Pages {
             lbxAlbums.ItemsSource = Results;
         }
 
+        private void UpdateResultsCount() {
+            string typeString = Type == SpotifyEntity.Artist ? "artist" : "album";
+            typeString += Results.Count != 1 ? "s" : "";
+
+            tbxSavedCount.Text = $"{Results.Count} saved {typeString}";
+
+        }
+
+        private void DeleteEntity(object sender, RoutedEventArgs e) {
+            if (Type == SpotifyEntity.Artist) {
+                bool deleted = Database.DeleteArtist(((ListBoxItem)lbxArtists.ContainerFromElement((Button)sender)).Content as Artist);
+                GetSavedArtists();
+            }
+            if (Type == SpotifyEntity.Album) {
+                bool deleted = Database.DeleteAlbum(((ListBoxItem)lbxAlbums.ContainerFromElement((Button)sender)).Content as Album);
+                GetSavedAlbums();
+            }
+
+            UpdateResultsCount();
+        }
+
+        private void CbxSearchField_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        }
+
+        private void ChbxSearchQuery_TextChanged(object sender, TextChangedEventArgs e) {
+
+        }
     }
 }

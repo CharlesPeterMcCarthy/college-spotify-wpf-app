@@ -50,8 +50,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Margin="3 -30 0 0"
-                        Name="SaveButton">
-                        <materialDesign:PackIcon Kind="Plus" />
+                        Name="DeleteButton"
+                        Click="DeleteEntity">
+                        <materialDesign:PackIcon Kind="DeleteForever" />
                     </Button>
 
                     <Grid Name="mainGrid">
@@ -141,8 +142,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Margin="3 -30 0 0"
-                        Name="SaveButton">
-                        <materialDesign:PackIcon Kind="Plus" />
+                        Name="DeleteButton"
+                        Click="DeleteEntity">
+                        <materialDesign:PackIcon Kind="DeleteForever" />
                     </Button>
 
                     <Grid Name="mainGrid">
@@ -226,20 +228,19 @@
             Grid.Row="0"
             Grid.Column="1"
             Orientation="Horizontal"
-            HorizontalAlignment="Right">
-            <!--<ComboBox 
+            Margin="0, 0, 0, 20"
+            HorizontalAlignment="Center">
+            <ComboBox 
                 Width="150"
-                Margin="0, 10, 0, 0"
-                materialDesign:HintAssist.Hint="Sort Results By"
-                Name="cbxSort" 
-                SelectionChanged="CbxSort_SelectionChanged" />
-            <CheckBox
-                Content="D"
-                Style="{StaticResource MaterialDesignActionDarkCheckBox}"
+                materialDesign:HintAssist.Hint="Search By"
+                Name="cbxSearchField"
+                SelectionChanged="CbxSearchField_SelectionChanged"/>
+            <TextBox
                 Margin="20 0 0 0"
-                ToolTip="Sort Descending"
-                Name="chbxSortDescending"
-                Click="ChbxSortDescending_Clicked"/>-->
+                Width="150"
+                Name="chbxSearchQuery"
+                materialDesign:HintAssist.Hint="Search Query" 
+                TextChanged="ChbxSearchQuery_TextChanged"/>
         </StackPanel>
 
         <TextBlock
@@ -248,8 +249,8 @@
             HorizontalAlignment="Center"
             Margin="0, 10, 0, 2"
             FontSize="10"
-            Style="{StaticResource MaterialDesignCaptionTextBlock}">
-            Displaying <TextBlock Name="tbxResultsCount" /> results.
+            Style="{StaticResource MaterialDesignBody2TextBlock}">
+            You have <TextBlock Name="tbxSavedCount" />.
         </TextBlock>
 
         <ListBox 

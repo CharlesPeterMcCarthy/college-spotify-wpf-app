@@ -252,7 +252,7 @@
             HorizontalAlignment="Center"
             Margin="0, 10, 0, 2"
             FontSize="10"
-            Style="{StaticResource MaterialDesignCaptionTextBlock}">
+            Style="{StaticResource MaterialDesignBody2TextBlock}">
             Displaying <TextBlock Name="tbxResultsCount" /> results.
         </TextBlock>
 

@@ -133,5 +133,47 @@ namespace SpotifyApp.Services {
             return albums;
         }
 
+        public static bool DeleteArtist(Artist artist) {
+            OpenDB();
+
+            string sql = $"DELETE FROM artists WHERE ID = '{artist.ID}'";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConn);
+
+            try {
+                command.ExecuteNonQuery();
+            } catch (SQLiteException) {
+                Toastr.Error("Error", $"Unable to delete artist '{artist.Name}'.");
+                CloseDB();
+                return false;
+            }
+
+            Toastr.Success("Arist Deleted", $"'{artist.Name}' has been deleted.");
+
+            CloseDB();
+
+            return true;
+        }
+
+        public static bool DeleteAlbum(Album album) {
+            OpenDB();
+
+            string sql = $"DELETE FROM albums WHERE ID = '{album.ID}'";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConn);
+
+            try {
+                command.ExecuteNonQuery();
+            } catch (SQLiteException) {
+                Toastr.Error("Error", $"Unable to delete album '{album.Name}'.");
+                CloseDB();
+                return false;
+            }
+
+            Toastr.Success("Album Deleted", $"'{album.Name}' has been deleted.");
+
+            CloseDB();
+
+            return true;
+        }
+
     }
 }
